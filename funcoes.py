@@ -4,7 +4,7 @@ def cria_pecas ():
     peca = []
     
     for i in range(7):
-        for j in range(7):
+        for j in range(i+1):
             peca = []
             peca.append(i)
             peca.append(j)
@@ -13,4 +13,4 @@ def cria_pecas ():
            
     shuffle(pecas)
     return pecas
-
+print(cria_pecas())
