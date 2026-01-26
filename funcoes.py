@@ -25,7 +25,8 @@ def inicia_jogo(n,total):
 
     return dicio
 
-print(inicia_jogo(2,total))
+
+
         
         
         
