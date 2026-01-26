@@ -16,10 +16,12 @@ total = cria_pecas()
 
 def inicia_jogo(n,total):
     dicio = {}
+    dicio2 = {}
     indice = 0
     for jogador in range(n):
-        dicio[jogador] = total[indice:indice+7]
+        dicio2[jogador] = total[indice:indice+7]
         indice +=7
+    dicio["jogadores"] = dicio2
     dicio["monte"] = total[indice:]
     dicio["mesa"] = []
 
