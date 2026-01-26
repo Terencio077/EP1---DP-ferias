@@ -13,4 +13,4 @@ def cria_pecas ():
            
     shuffle(pecas)
     return pecas
-print(cria_pecas())
+
