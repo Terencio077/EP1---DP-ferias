@@ -12,3 +12,20 @@ def cria_pecas ():
            
     shuffle(pecas)
     return pecas
+total = cria_pecas()
+
+def inicia_jogo(n,total):
+    dicio = {}
+    indice = 0
+    for jogador in range(n):
+        dicio[jogador] = total[indice:indice+7]
+        indice +=7
+    dicio["monte"] = total[indice:]
+    dicio["mesa"] = []
+
+    return dicio
+
+print(inicia_jogo(2,total))
+        
+        
+        
