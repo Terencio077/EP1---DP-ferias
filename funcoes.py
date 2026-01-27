@@ -46,7 +46,7 @@ conta_pontos([[1,0],[2,3],[6,6]])
 def posicoes_possiveis(mesa,pecas):
     posicoes = []
     if mesa == []:
-        for i in range(pecas):
+        for i in range(len(pecas)):
             posicoes.append(i)
 
     else:
