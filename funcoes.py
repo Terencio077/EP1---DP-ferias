@@ -26,7 +26,7 @@ def inicia_jogo(n,total):
     dicio["mesa"] = []
     return dicio
 
-def verifica_ganhadir(dicionario):
+def verifica_ganhador(dicionario):
     for jogador,pecas in dicionario:
         if len(pecas) == 0:
             return jogador
