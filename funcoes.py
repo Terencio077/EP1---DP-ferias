@@ -65,7 +65,7 @@ def posicoes_possiveis(mesa,pecas):
 def adiciona_na_mesa(peca_add,mesa):
     mesa_final = []
     if mesa == []:
-        mesa_final.apend(peca_add)
+        mesa_final.append(peca_add)
     else:
         inicio = mesa[0][0]
         fim = mesa[len(mesa)-1][1]
