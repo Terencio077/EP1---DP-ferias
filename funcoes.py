@@ -24,9 +24,14 @@ def inicia_jogo(n,total):
     dicio["jogadores"] = dicio2
     dicio["monte"] = total[indice:]
     dicio["mesa"] = []
-
     return dicio
 
+def verifica_ganhadir(dicionario):
+    for jogador,pecas in dicionario:
+        if len(pecas) == 0:
+            return jogador
+        else:
+            return -1
 
 
         
