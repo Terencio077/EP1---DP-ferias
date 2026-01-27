@@ -32,6 +32,17 @@ def verifica_ganhador(dicionario):
             return jogador
     return -1
         
+def conta_pontos(lista):
+    if lista == []:
+        return 0
+    soma = 0
+    for sub_lista in lista:
+        for numero in sub_lista:
+            soma+=numero
+    return soma
+
+conta_pontos([[1,0],[2,3],[6,6]])
+
 
 
         
