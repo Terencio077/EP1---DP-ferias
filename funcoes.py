@@ -73,6 +73,12 @@ def adiciona_na_mesa(peca_add,mesa):
         if peca_add[0] == fim:
             mesa.append(peca_add)
             mesa_final = mesa
+
+        elif peca_add[1] == fim:
+            peca = [peca_add[1],peca_add[0]]
+            mesa.append(peca)
+            mesa_final = mesa 
+            
         elif peca_add[1] == inicio:
             mesa_final.append(peca_add)
             for peca in mesa:
@@ -82,6 +88,7 @@ def adiciona_na_mesa(peca_add,mesa):
             mesa_final.append(peca)
             for coisa in mesa:
                 mesa_final.append(coisa)
+        
 
     return mesa_final
 
