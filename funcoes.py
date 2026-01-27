@@ -62,10 +62,30 @@ def posicoes_possiveis(mesa,pecas):
             i+=1
 
     return posicoes
-Mesa = [[5,6]]
-Pecas = [[1,3],[0,1],[4,6],[0,3],[0,4],[6,6],[0,6]]
+def adiciona_na_mesa(peca_add,mesa):
+    mesa_final = []
+    if mesa == []:
+        mesa_final.apend(peca_add)
+    else:
+        inicio = mesa[0][0]
+        fim = mesa[len(mesa)-1][1]
 
-posicoes_possiveis(Mesa,Pecas)
+        if peca_add[0] == fim:
+            mesa.append(peca_add)
+            mesa_final = mesa
+        elif peca_add[1] == inicio:
+            mesa_final.append(peca_add)
+            for peca in mesa:
+                mesa_final.append(peca)
+        elif peca_add[0] == inicio:
+            peca = [peca_add[1],peca_add[0]]
+            mesa_final.append(peca)
+            for coisa in mesa:
+                mesa_final.append(coisa)
+
+    return mesa_final
+
+
 
 
 
