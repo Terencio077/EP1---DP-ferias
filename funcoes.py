@@ -43,6 +43,30 @@ def conta_pontos(lista):
 
 conta_pontos([[1,0],[2,3],[6,6]])
 
+def posicoes_possiveis(mesa,pecas):
+    posicoes = []
+    if mesa == []:
+        for i in range(pecas):
+            posicoes.append(i)
+
+    else:
+        inicio = mesa[0][0]
+        fim = mesa[len(mesa)-1][1]
+        i = 0
+
+        while i<len(pecas):
+            numero1 = pecas[i][0]
+            numero2 = pecas[i][1]
+            if numero1 == inicio or numero2 == inicio or numero1 == fim or numero2 == fim:
+                posicoes.append(i)
+            i+=1
+
+    return posicoes
+Mesa = [[5,6]]
+Pecas = [[1,3],[0,1],[4,6],[0,3],[0,4],[6,6],[0,6]]
+
+posicoes_possiveis(Mesa,Pecas)
+
 
 
         
