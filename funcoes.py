@@ -27,11 +27,11 @@ def inicia_jogo(n,total):
     return dicio
 
 def verifica_ganhador(dicionario):
-    for jogador,pecas in dicionario:
+    for jogador,pecas in dicionario.items():
         if len(pecas) == 0:
             return jogador
-        else:
-            return -1
+    return -1
+        
 
 
         
