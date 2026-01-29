@@ -171,7 +171,7 @@ while jogar_novamente:
                     compra = jogo["monte"][0]
                     del jogo["monte"][0]
                     jogo["jogadores"][jogador_atual].append(compra)
-                    print("jogador automatico " + str(jogador_atual) + " comprou " + "[" + str(compra[0]) + "|" + str(compra[1]) + "]")
+                    print("jogador automatico " + str(jogador_atual) + " comprou uma peça")
                     pos_cpu = posicoes_possiveis(jogo["mesa"], mao_cpu)
 
                 if pos_cpu:
