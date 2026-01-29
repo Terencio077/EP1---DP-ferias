@@ -1,4 +1,5 @@
 from funcoes import *
+import random
 
 cores = {
     0: "\033[31m",
@@ -24,9 +25,15 @@ while jogar_novamente:
     pecas = cria_pecas()
     jogo = inicia_jogo(n, pecas)
 
-    turno = 0
+    turno = random.randint(0, n - 1)
     passes_consecutivos = 0
     terminou = False
+
+   
+    if turno == 0:
+        print("Você começa!")
+    else:
+        print(f"Jogador {turno} começa!")
 
     while not terminou:
         jogador_atual = turno % n
@@ -67,7 +74,7 @@ while jogar_novamente:
 
                 pos = posicoes_possiveis(jogo["mesa"], mao)
                 if not pos:
-                    # compra repetidamente até ter jogada ou monte acabar
+                  
                     while (not pos) and jogo["monte"]:
                         compra = jogo["monte"].pop(0)
                         jogo["jogadores"][0].append(compra)
@@ -75,7 +82,7 @@ while jogar_novamente:
                         pos = posicoes_possiveis(jogo["mesa"], mao)
 
                     if not pos:
-                        # ainda sem jogadas e monte vazio
+                       
                         print("Sem jogadas e monte vazio — você passou.")
                         jogada_encerrada = True
                         passes_consecutivos = passes_consecutivos + 1
@@ -156,7 +163,7 @@ while jogar_novamente:
                 print("jogador automatico " + str(jogador_atual) + " colocou " + "[" + str(peca[0]) + "|" + str(peca[1]) + "]")
                 passes_consecutivos = 0
             else:
-                # compra repetidamente até ter jogada ou monte acabar
+                
                 while (not pos_cpu) and jogo["monte"]:
                     compra = jogo["monte"].pop(0)
                     jogo["jogadores"][jogador_atual].append(compra)
@@ -204,7 +211,7 @@ while jogar_novamente:
                 soma = conta_pontos(jogo["jogadores"][j])
                 pontos[j] = soma
 
-            # determina menor pontuação e possíveis vencedores
+          
             menor = min(pontos.values())
             vencedores = [j for j, pts in pontos.items() if pts == menor]
 
@@ -228,7 +235,7 @@ while jogar_novamente:
                 posto = posto + 1
 
             if len(vencedores) > 1:
-                # empate entre múltiplos jogadores
+               
                 print("Jogo empatado entre os jogadores: " + ", ".join(str(v) for v in vencedores))
             else:
                 vencedor = vencedores[0]
