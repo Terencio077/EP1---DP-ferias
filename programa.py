@@ -67,17 +67,15 @@ while jogar_novamente:
 
                 pos = posicoes_possiveis(jogo["mesa"], mao)
                 if not pos:
-                    if jogo["monte"]:
-                        compra = jogo["monte"][0]
-                        del jogo["monte"][0]
+                    # compra repetidamente até ter jogada ou monte acabar
+                    while (not pos) and jogo["monte"]:
+                        compra = jogo["monte"].pop(0)
                         jogo["jogadores"][0].append(compra)
                         print("como não há jogadas, comprou uma peça " + "[" + str(compra[0]) + "|" + str(compra[1]) + "]")
                         pos = posicoes_possiveis(jogo["mesa"], mao)
-                        if not pos:
-                            print("PASSOU A VEZ")
-                            jogada_encerrada = True
-                            passes_consecutivos = passes_consecutivos + 1
-                    else:
+
+                    if not pos:
+                        # ainda sem jogadas e monte vazio
                         print("Sem jogadas e monte vazio — você passou.")
                         jogada_encerrada = True
                         passes_consecutivos = passes_consecutivos + 1
@@ -158,12 +156,20 @@ while jogar_novamente:
                 print("jogador automatico " + str(jogador_atual) + " colocou " + "[" + str(peca[0]) + "|" + str(peca[1]) + "]")
                 passes_consecutivos = 0
             else:
-                if jogo["monte"]:
-                    compra = jogo["monte"][0]
-                    del jogo["monte"][0]
+                # compra repetidamente até ter jogada ou monte acabar
+                while (not pos_cpu) and jogo["monte"]:
+                    compra = jogo["monte"].pop(0)
                     jogo["jogadores"][jogador_atual].append(compra)
                     print("jogador automatico " + str(jogador_atual) + " comprou " + "[" + str(compra[0]) + "|" + str(compra[1]) + "]")
-                    passes_consecutivos = passes_consecutivos + 0
+                    pos_cpu = posicoes_possiveis(jogo["mesa"], mao_cpu)
+
+                if pos_cpu:
+                    indice_jogavel = pos_cpu[0]
+                    peca = mao_cpu[indice_jogavel]
+                    del mao_cpu[indice_jogavel]
+                    jogo["mesa"] = adiciona_na_mesa(peca, jogo["mesa"])
+                    print("jogador automatico " + str(jogador_atual) + " colocou " + "[" + str(peca[0]) + "|" + str(peca[1]) + "]")
+                    passes_consecutivos = 0
                 else:
                     print(str(jogador_atual) + " passou a jogada")
                     passes_consecutivos = passes_consecutivos + 1
@@ -194,17 +200,18 @@ while jogar_novamente:
         if (passes_consecutivos >= n) and (not jogo["monte"]):
             print("\nJogo bloqueado! Ninguém conseguiu jogar e monte está vazio.")
             pontos = {}
-            menor = 999999999
-            vencedor = 0
             for j in jogo["jogadores"]:
                 soma = conta_pontos(jogo["jogadores"][j])
                 pontos[j] = soma
-                if soma < menor or (soma == menor and j < vencedor):
-                    menor = soma
-                    vencedor = j
+
+            # determina menor pontuação e possíveis vencedores
+            menor = min(pontos.values())
+            vencedores = [j for j, pts in pontos.items() if pts == menor]
+
             print("Pontos por jogador (soma das peças nas mãos):")
             for j in pontos:
                 print("  Jogador " + str(j) + ": " + str(pontos[j]) + " pontos")
+
             classificacao = []
             for j in jogo["jogadores"]:
                 classificacao.append([j, pontos[j]])
@@ -219,10 +226,17 @@ while jogar_novamente:
                 else:
                     print(str(posto) + ". Jogador " + str(jogador_id) + " - " + str(pts) + " pontos")
                 posto = posto + 1
-            if vencedor == 0:
-                print("você ganhou por ter menos pontos")
+
+            if len(vencedores) > 1:
+                # empate entre múltiplos jogadores
+                print("Jogo empatado entre os jogadores: " + ", ".join(str(v) for v in vencedores))
             else:
-                print("o jogador " + str(vencedor) + " ganhou por ter menos pontos")
+                vencedor = vencedores[0]
+                if vencedor == 0:
+                    print("você ganhou por ter menos pontos")
+                else:
+                    print("o jogador " + str(vencedor) + " ganhou por ter menos pontos")
+
             terminou = True
 
         turno = turno + 1
