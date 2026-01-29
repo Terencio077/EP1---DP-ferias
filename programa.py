@@ -95,7 +95,7 @@ while jogar_novamente:
                         compra = jogo["monte"][0]
                         del jogo["monte"][0]
                         jogo["jogadores"][0].append(compra)
-                        print("como não há jogadas, comprou uma peça " + "[" + str(compra[0]) + "|" + str(compra[1]) + "]")
+                        print("como não há jogadas, você comprou uma peça " + "[" + str(compra[0]) + "|" + str(compra[1]) + "]")
                         pos = posicoes_possiveis(jogo["mesa"], mao)
 
                     if not pos:
