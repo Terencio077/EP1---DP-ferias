@@ -63,7 +63,7 @@ while jogar_novamente:
                 counts_str.append("Você: " + str(cnt))
             else:
                 counts_str.append("Jogador " + str(j) + ": " + str(cnt))
-        print("Peças na mesa: " + str(mesa_count) + " | " + " / ".join(counts_str))
+        print("Peças na mesa: " + str(mesa_count) + " | " + " | ".join(counts_str))
 
         if jogador_atual == 0:
             mao = jogo["jogadores"][0]
