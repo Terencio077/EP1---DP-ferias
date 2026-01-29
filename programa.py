@@ -8,7 +8,7 @@ cores = {
     3: "\033[34m",
     4: "\033[35m",
     5: "\033[36m",
-    6: "\033[37m",
+    6: "\033[30m",
 }
 reset = "\033[0m"
 
@@ -53,6 +53,18 @@ while jogar_novamente:
         else:
             print("MESA: (vazia)")
 
+        mesa_count = len(jogo["mesa"]) if jogo["mesa"] else 0
+        jogadores_counts = []
+        for j in jogo["jogadores"]:
+            jogadores_counts.append((j, len(jogo["jogadores"][j])))
+        counts_str = []
+        for j, cnt in jogadores_counts:
+            if j == 0:
+                counts_str.append("Você: " + str(cnt))
+            else:
+                counts_str.append("Jogador " + str(j) + ": " + str(cnt))
+        print("Peças na mesa: " + str(mesa_count) + " | " + " / ".join(counts_str))
+
         if jogador_atual == 0:
             mao = jogo["jogadores"][0]
             jogou = False
@@ -60,7 +72,8 @@ while jogar_novamente:
 
             while (not jogou) and (not jogada_encerrada):
                 linha_mao = ""
-                for p in mao:
+                linha_indices = ""
+                for i, p in enumerate(mao):
                     linha_mao = (
                     linha_mao +
                     "[" +
@@ -68,15 +81,19 @@ while jogar_novamente:
                     "|" +
                     cores[p[1]] + str(p[1]) + reset +
                     "] "
-                )
+                    )
+                    linha_indices += str(i + 1).center(6)
                 print("Sua mão:")
                 print(linha_mao)
+                print(linha_indices)
+              
 
                 pos = posicoes_possiveis(jogo["mesa"], mao)
                 if not pos:
                   
                     while (not pos) and jogo["monte"]:
-                        compra = jogo["monte"].pop(0)
+                        compra = jogo["monte"][0]
+                        del jogo["monte"][0]
                         jogo["jogadores"][0].append(compra)
                         print("como não há jogadas, comprou uma peça " + "[" + str(compra[0]) + "|" + str(compra[1]) + "]")
                         pos = posicoes_possiveis(jogo["mesa"], mao)
@@ -135,21 +152,7 @@ while jogar_novamente:
                     print("Você venceu")
                 else:
                     print("Jogador " + str(ganhador) + " venceu")
-                classificacao = []
-                for j in jogo["jogadores"]:
-                    pontos = conta_pontos(jogo["jogadores"][j])
-                    classificacao.append([j, pontos])
-                classificacao.sort(key=lambda x: (x[1], x[0]))
-                print("Classificação:")
-                posto = 1
-                for item in classificacao:
-                    jogador_id = item[0]
-                    pontos = item[1]
-                    if jogador_id == 0:
-                        print(str(posto) + ". Você - " + str(pontos) + " pontos")
-                    else:
-                        print(str(posto) + ". Jogador " + str(jogador_id) + " - " + str(pontos) + " pontos")
-                    posto = posto + 1
+                print_classificacao(jogo)
                 terminou = True
 
         else:
@@ -165,7 +168,8 @@ while jogar_novamente:
             else:
                 
                 while (not pos_cpu) and jogo["monte"]:
-                    compra = jogo["monte"].pop(0)
+                    compra = jogo["monte"][0]
+                    del jogo["monte"][0]
                     jogo["jogadores"][jogador_atual].append(compra)
                     print("jogador automatico " + str(jogador_atual) + " comprou " + "[" + str(compra[0]) + "|" + str(compra[1]) + "]")
                     pos_cpu = posicoes_possiveis(jogo["mesa"], mao_cpu)
@@ -187,21 +191,7 @@ while jogar_novamente:
                     print("parabéns, você venceu")
                 else:
                     print("você conseguiu perder pro jogador " + str(jogador_atual))
-                classificacao = []
-                for j in jogo["jogadores"]:
-                    pontos = conta_pontos(jogo["jogadores"][j])
-                    classificacao.append([j, pontos])
-                classificacao.sort(key=lambda x: (x[1], x[0]))
-                print("Classificação:")
-                posto = 1
-                for item in classificacao:
-                    jogador_id = item[0]
-                    pontos = item[1]
-                    if jogador_id == 0:
-                        print(str(posto) + ". Você - " + str(pontos) + " pontos")
-                    else:
-                        print(str(posto) + ". Jogador " + str(jogador_id) + " - " + str(pontos) + " pontos")
-                    posto = posto + 1
+                print_classificacao(jogo)
                 terminou = True
 
         if (passes_consecutivos >= n) and (not jogo["monte"]):
@@ -219,24 +209,16 @@ while jogar_novamente:
             for j in pontos:
                 print("  Jogador " + str(j) + ": " + str(pontos[j]) + " pontos")
 
-            classificacao = []
-            for j in jogo["jogadores"]:
-                classificacao.append([j, pontos[j]])
-            classificacao.sort(key=lambda x: (x[1], x[0]))
-            print("Classificação:")
-            posto = 1
-            for item in classificacao:
-                jogador_id = item[0]
-                pts = item[1]
-                if jogador_id == 0:
-                    print(str(posto) + ". Você - " + str(pts) + " pontos")
-                else:
-                    print(str(posto) + ". Jogador " + str(jogador_id) + " - " + str(pts) + " pontos")
-                posto = posto + 1
+            print_classificacao(jogo)
 
             if len(vencedores) > 1:
-               
-                print("Jogo empatado entre os jogadores: " + ", ".join(str(v) for v in vencedores))
+                nomes_vencedores = []
+                for v in vencedores:
+                    if v == 0:
+                        nomes_vencedores.append("Você")
+                    else:
+                        nomes_vencedores.append("Jogador " + str(v))
+                print("Jogo empatado entre: " + ", ".join(nomes_vencedores))
             else:
                 vencedor = vencedores[0]
                 if vencedor == 0:

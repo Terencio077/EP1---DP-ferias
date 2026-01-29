@@ -92,6 +92,23 @@ def adiciona_na_mesa(peca_add,mesa):
 
     return mesa_final
 
+def print_classificacao(jogo):
+    classificacao = []
+    for j in jogo["jogadores"]:
+        pontos = conta_pontos(jogo["jogadores"][j])
+        classificacao.append([j, pontos])
+    classificacao.sort(key=lambda x: (x[1], x[0]))
+    print("Classificação:")
+    posto = 1
+    for item in classificacao:
+        jogador_id = item[0]
+        pontos = item[1]
+        if jogador_id == 0:
+            print(str(posto) + ". Você - " + str(pontos) + " pontos")
+        else:
+            print(str(posto) + ". Jogador " + str(jogador_id) + " - " + str(pontos) + " pontos")
+        posto = posto + 1
+
 
 
 
